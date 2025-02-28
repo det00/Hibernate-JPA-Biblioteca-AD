@@ -1,28 +1,33 @@
 package controller;
 
 import dao.LibroDao;
-import model.Libreria;
 import model.Libro;
 
 public class LibroController {
-    LibroDao libroDao = new LibroDao();
+    private final LibroDao libroDao = new LibroDao();
 
-    public void getLibrosEditorialAutor(){
-        for (Libro l : libroDao.getLibros()) {
-            System.out.println("Libro: " + l.getTitulo());
-            System.out.println(" - Editorial: " + l.getEditorial().getNombre());
-            System.out.println(" - Autor: " + l.getAutor().getNombre());
-            System.out.println();
-        }
+    public void crearLibro(Libro libro) {
+        libroDao.crearLibro(libro);
+        System.out.println("Libro creado: " + libro.getTitulo());
     }
 
-    public void getLibrosLibrerias(){
-        for (Libro l : libroDao.getLibros()) {
-            System.out.println("Libro: " + l.getTitulo());
-            for (Libreria lb : l.getLibrerias()) {
-                System.out.println(" - " + lb.getNombre());
-            }
+    public void mostrarLibrosConEditorialYAutor() {
+        System.out.println("TODOS LOS LIBROS CON SU EDITORIAL Y AUTOR:");
+        for (Libro l : libroDao.getLibrosConEditorialYAutor()) {
+            System.out.println(l.getTitulo() + " - " + l.getAutor().getNombre() +
+                    " " + l.getAutor().getApellidos() +
+                    " (Editorial: " + l.getEditorial().getNombre() + ")");
+        }
+        System.out.println();
+    }
+
+    public void mostrarLibrosConLibreria() {
+        System.out.println("TODOS LOS LIBROS Y LAS LIBRERIAS EN LAS QUE ESTAN:");
+        for (Libro l : libroDao.getLibrosConLibreria()) {
+            System.out.print(l.getTitulo() + " está en: ");
+            l.getLibrerias().forEach(libreria -> System.out.print(libreria.getNombre() + ", "));
             System.out.println();
         }
+        System.out.println();
     }
 }

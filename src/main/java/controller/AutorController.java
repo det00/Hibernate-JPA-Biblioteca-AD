@@ -1,24 +1,22 @@
 package controller;
 
-
 import dao.AutorDao;
-import dao.LibreriaDao;
-import dao.LibroDao;
 import model.Autor;
-import model.Libro;
 
 public class AutorController {
+    private final AutorDao autorDao = new AutorDao();
 
-    AutorDao autorDao = new AutorDao();
+    public void crearAutor(Autor autor) {
+        autorDao.crearAutor(autor);
+        System.out.println("Autor creado: " + autor.getNombre() + " " + autor.getApellidos());
+    }
 
-    public void getAutoresLibros(){
-        for (Autor a : autorDao.getAutores()) {
+    public void mostrarAutoresConLibros() {
+        System.out.println("TODOS LOS AUTORES CON SUS LIBROS:");
+        for (Autor a : autorDao.getAutoresConLibros()) {
             System.out.println("Autor: " + a.getNombre() + " " + a.getApellidos());
-            System.out.println("Libros escritos:");
-            for (Libro libro : a.getLibrosEscritos()) {
-                System.out.println(" - " + libro.getTitulo());
-            }
-            System.out.println();
+            a.getLibrosEscritos().forEach(l -> System.out.println(" - " + l.getTitulo()));
         }
+        System.out.println();
     }
 }

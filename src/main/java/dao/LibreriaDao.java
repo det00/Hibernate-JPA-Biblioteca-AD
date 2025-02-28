@@ -8,15 +8,26 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class LibreriaDao {
-    Session session;
-    public List<Libreria> getLibrerias(){
+    private Session session;
+
+    public void crearLibreria(Libreria libreria) {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query<Libreria> query = session.createQuery("FROM Libreria l LEFT JOIN FETCH l.coleccionLibros",Libreria.class);
-
-        List<Libreria> listaLibreriasLibros = query.list();
+        session.persist(libreria);
         session.getTransaction().commit();
         session.close();
-        return listaLibreriasLibros;
+    }
+
+    public List<Libreria> getLibreriasConLibros() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query<Libreria> query = session.createQuery(
+                "FROM Libreria l JOIN FETCH l.coleccionLibros",
+                Libreria.class
+        );
+        List<Libreria> librerias = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return librerias;
     }
 }

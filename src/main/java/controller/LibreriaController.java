@@ -2,17 +2,21 @@ package controller;
 
 import dao.LibreriaDao;
 import model.Libreria;
-import model.Libro;
 
 public class LibreriaController {
-    LibreriaDao libreriaDao = new LibreriaDao();
-    public void getLibreriaLibros(){
-        for (Libreria l : libreriaDao.getLibrerias()) {
+    private final LibreriaDao libreriaDao = new LibreriaDao();
+
+    public void crearLibreria(Libreria libreria) {
+        libreriaDao.crearLibreria(libreria);
+        System.out.println("Librería creada: " + libreria.getNombre());
+    }
+
+    public void mostrarLibreriasConLibros() {
+        System.out.println("TODAS LAS LIBRERIAS CON SUS LIBROS:");
+        for (Libreria l : libreriaDao.getLibreriasConLibros()) {
             System.out.println("Librería: " + l.getNombre());
-            for (Libro libro : l.getColeccionLibros()) {
-                System.out.println(" - " + libro.getTitulo());
-            }
-            System.out.println();
+            l.getColeccionLibros().forEach(libro -> System.out.println(" - " + libro.getTitulo()));
         }
+        System.out.println();
     }
 }

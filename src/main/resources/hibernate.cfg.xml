@@ -9,6 +9,7 @@
         <property name="connection.url">jdbc:mysql://localhost:3306/biblioteca</property>
         <property name="connection.username">root</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="model.Autor"/>
         <mapping class="model.Editorial"/>
